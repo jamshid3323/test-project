@@ -647,6 +647,12 @@ footer p {
 	line-height: 24px;
 }
 
+.work_image {
+	width: 246px;
+	height: 200px;
+	border-radius: 50%;
+}
+
 
 
 /* for mobile devices*/
@@ -984,3 +990,5 @@ footer p {
 	}
 
 }
+
+

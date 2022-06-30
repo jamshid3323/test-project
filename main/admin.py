@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import *
 
 
-@admin.register(ContactModel)
+@admin.register(MessageModel)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'email', 'phone']
     list_display_links = ['id', 'name']
