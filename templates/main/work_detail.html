@@ -1,0 +1,29 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block content %}
+    <section class="h_in_works">
+        <div class="h_works">
+            <h1>
+                {{ object.title }}
+            </h1>
+            <div>
+                <div class="boks">
+                    <span>{{ object.created_at|date:'Y' }}</span>
+                </div>
+                <h3>
+                    {% for c in object.category.all %}
+                        {% if forloop.last %}
+                            <h2>{{ c }}</h2>
+                        {% elif forloop.first %}
+                            <h2>{{ c }},</h2>
+                        {% endif %}
+                    {% endfor %}
+                </h3>
+            </div>
+            <p>
+                {{ object.body|safe }}
+            </p>
+        </div>
+    </section>
+{% endblock %}

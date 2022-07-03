@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <section class="h_in_works">
+        <div class="h_works">
+            <img src="{{ object.image.url }}" alt="rasm" class="img-fluid">
+            <h1 class="mt-3">
+                {{ object.title }}
+            </h1>
+            <div>
+                <div class="boks">
+                    <span>{{ object.created_at|date:'Y' }}</span>
+                </div>
+                <h3>
+                   {{ object.category }}
+                </h3>
+            </div>
+            <p>
+                {{ object.body|safe }}
+            </p>
+        </div>
+    </section>
+{% endblock %}

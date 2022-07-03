@@ -29,25 +29,74 @@
         <div class="thirth">
             <h1>Other Works</h1>
             {% for work in object_list %}
-            <div class="news">
-                <div class="triangle">
-                    <img src="{{ work.work_image.url }}" alt=""  class="work_image">
-                    <div>
-                        <a href="#">{{ work.title }}</a>
-                        <div class="date">
-                            <div class="boxx">
-                                <p>{{ work.created_at|date:'Y' }}</p>
+                <div class="news">
+                    <div class="triangle">
+                        <img src="{{ work.work_image.url }}" alt="" class="work_image">
+                        <div class="test2">
+                            <a href="{% url 'detail' work.pk %}">{{ work.title }}</a>
+                            <div class="date">
+                                <div class="boxx me-3">
+                                    <p>{{ work.created_at|date:'Y' }}</p>
+                                </div>
+                                <div class="d-flex">
+                                    {% for c in work.category.values %}
+                                        {% if forloop.last %}
+                                            <h2 class="m-0">{{ c.name }}</h2>
+                                        {% else %}
+                                            <h2 class="ms-0 me-3">{{ c.name }},</h2>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
-                            <h2>{{ work.category }}</h2>
+                            <p class="test">
+                                {{ work.body|truncatewords:'30'|safe }}
+                            </p>
                         </div>
-                        <p>
-                           {{ work.body|truncatewords:'30'|safe }}
-                        </p>
                     </div>
                 </div>
-            </div>
-            <hr>
+                <hr>
             {% endfor %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for p in page_obj.paginator.page_range %}
+                        {% if p == page_obj.number %}
+                            <li class="page-item">
+                                <span>
+                                    <a href="?page={{ p }}" class="page-link active">
+                                        {{ p }}
+                                    </a>
+                                </span>
+                            </li>
+                        {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ p }}">
+                                    {{ p }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </section>
 {% endblock %}

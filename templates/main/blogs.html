@@ -9,14 +9,57 @@
         <div class="p_second_boxs">
             {% for blog in object_list %}
                 <div>
-                    <h1>{{ blog.title}}</h1>
+                    <a href="{% url 'blog_detail' blog.pk %}" class="blog_detail">
+                        <h1>{{ blog.title}}</h1>
+                    </a>
                     <h2>{{ blog.created_at|date:'d F Y'}} &nbsp; &#10072; &nbsp; {{ blog.category }}</h2>
                     <p>
                        {{ blog.body|truncatewords:'30'|safe }}
                     </p>
                 </div>
+                <hr>
             {% endfor %}
-            <hr>
+             <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for p in page_obj.paginator.page_range %}
+                        {% if p == page_obj.number %}
+                            <li class="page-item">
+                                <span>
+                                    <a href="?page={{ p }}" class="page-link active">
+                                        {{ p }}
+                                    </a>
+                                </span>
+                            </li>
+                        {% elif p > page_obj.number|add:-3 and p < page_obj.number|add:3 %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ p }}">
+                                    {{ p }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </section>
 {% endblock %}
